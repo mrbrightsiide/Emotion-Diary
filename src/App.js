@@ -1,3 +1,4 @@
+import React, { useRef, useReducer } from "react";
 import "./App.css";
 import Home from "./pages/Home";
 import New from "./pages/New";
@@ -38,45 +39,84 @@ const reducer = (state, action) => {
   return newState;
 };
 
+export const DiaryStateContext = React.createContext();
+export const DiaryDispatchContext = React.createContext();
+
 function App() {
   const [data, dispatch] = useReducer(reducer, []);
 
+  const dataId = useRef(0);
+  //CREAT
+  const onCreate = (date, content, emotion) => {
+    dispatch({
+      type: "CREATE",
+      data: {
+        id: dataId.current,
+        date: new Date(date).getTime(),
+        content,
+        emotion,
+      },
+    });
+  };
+  // REMOVE
+  const onRemove = (targetID) => {
+    dispatch({ type: "REMOVE", targetID });
+  };
+  // EDIT
+  const onEdit = (targetID, date, content, emotion) => {
+    dispatch({
+      type: "EDIT",
+      data: {
+        id: targetID,
+        date: new Date(date).getTime(),
+        content,
+        emotion,
+      },
+    });
+  };
   return (
-    <BrowserRouter>
-      <div className="App">
-        <MyHeader
-          headText={"App"}
-          // 컴포넌트 자체를 프롬스로 넘기면 코드의 줄을 줄여줄 수 있음
-          // ctrl+l 한줄전체선택..절대 안 까먹어..
-          leftChild={
-            <MyButton text={"왼쪽버튼"} onClick={() => alert("왼쪽버튼클릭")} />
-          }
-          rightChild={
-            <MyButton
-              text={"오른쪽버튼"}
-              onClick={() => alert("오른쪽버튼클릭")}
+    <DiaryStateContext.Provider value={data}>
+      <DiaryDispatchContext.Provider value={{ onCreate, onEdit, onRemove }}>
+        <BrowserRouter>
+          <div className="App">
+            <MyHeader
+              headText={"App"}
+              // 컴포넌트 자체를 프롬스로 넘기면 코드의 줄을 줄여줄 수 있음
+              // ctrl+l 한줄전체선택..절대 안 까먹어..
+              leftChild={
+                <MyButton
+                  text={"왼쪽버튼"}
+                  onClick={() => alert("왼쪽버튼클릭")}
+                />
+              }
+              rightChild={
+                <MyButton
+                  text={"오른쪽버튼"}
+                  onClick={() => alert("오른쪽버튼클릭")}
+                />
+              }
             />
-          }
-        />
-        <Routes>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="/new" element={<New />}></Route>
-          <Route path="/diary/:id" element={<Diary />}></Route>
-          <Route path="/edit" element={<Edit />}></Route>
-        </Routes>
-        <MyButton
-          text={"버튼"}
-          onClick={() => alert("버튼클릭")}
-          type={"positive"}
-        />
-        <MyButton
-          text={"버튼"}
-          onClick={() => alert("버튼클릭")}
-          type={"negative"}
-        />
-        <MyButton text={"버튼"} onClick={() => alert("버튼클릭")} />
-      </div>
-    </BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Home />}></Route>
+              <Route path="/new" element={<New />}></Route>
+              <Route path="/diary/:id" element={<Diary />}></Route>
+              <Route path="/edit" element={<Edit />}></Route>
+            </Routes>
+            <MyButton
+              text={"버튼"}
+              onClick={() => alert("버튼클릭")}
+              type={"positive"}
+            />
+            <MyButton
+              text={"버튼"}
+              onClick={() => alert("버튼클릭")}
+              type={"negative"}
+            />
+            <MyButton text={"버튼"} onClick={() => alert("버튼클릭")} />
+          </div>
+        </BrowserRouter>
+      </DiaryDispatchContext.Provider>
+    </DiaryStateContext.Provider>
   );
 }
 
