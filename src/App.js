@@ -42,8 +42,16 @@ const reducer = (state, action) => {
 export const DiaryStateContext = React.createContext();
 export const DiaryDispatchContext = React.createContext();
 
+const dummyData = [
+  { id: 1, emotion: 1, content: "일기1번", date: 1650814310137 },
+  { id: 2, emotion: 2, content: "일기2번", date: 1650814310138 },
+  { id: 3, emotion: 3, content: "일기3번", date: 1650814310139 },
+  { id: 4, emotion: 4, content: "일기4번", date: 1650814310140 },
+  { id: 5, emotion: 5, content: "일기5번", date: 1650814310141 },
+];
+
 function App() {
-  const [data, dispatch] = useReducer(reducer, []);
+  const [data, dispatch] = useReducer(reducer, dummyData);
 
   const dataId = useRef(0);
   //CREAT
@@ -79,21 +87,6 @@ function App() {
       <DiaryDispatchContext.Provider value={{ onCreate, onEdit, onRemove }}>
         <BrowserRouter>
           <div className="App">
-            <MyHeader
-              headText={"App"}
-              leftChild={
-                <MyButton
-                  text={"왼쪽버튼"}
-                  onClick={() => alert("왼쪽버튼클릭")}
-                />
-              }
-              rightChild={
-                <MyButton
-                  text={"오른쪽버튼"}
-                  onClick={() => alert("오른쪽버튼클릭")}
-                />
-              }
-            />
             <Routes>
               <Route path="/" element={<Home />}></Route>
               <Route path="/new" element={<New />}></Route>
