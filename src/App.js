@@ -81,8 +81,6 @@ function App() {
           <div className="App">
             <MyHeader
               headText={"App"}
-              // 컴포넌트 자체를 프롬스로 넘기면 코드의 줄을 줄여줄 수 있음
-              // ctrl+l 한줄전체선택..절대 안 까먹어..
               leftChild={
                 <MyButton
                   text={"왼쪽버튼"}
