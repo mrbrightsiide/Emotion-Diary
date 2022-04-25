@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import MyButton from "./MyButton";
+import DiaryItem from "./DiaryItem";
 
 const sortOptionList = [
   { value: "latest", name: "최신순" },
@@ -13,7 +16,11 @@ const filterOptionList = [
 
 const ControlMenu = ({ value, onChange, optionList }) => {
   return (
-    <select value={value} onChange={(event) => onChange(event.target.value)}>
+    <select
+      className="ControlMenu"
+      value={value}
+      onChange={(event) => onChange(event.target.value)}
+    >
       {optionList.map((it, idx) => (
         <option key={idx} value={it.value}>
           {it.name}
@@ -49,25 +56,39 @@ const DiaryList = ({ diaryList }) => {
     return sortedList;
   };
 
+  // 훅스는 왜 여기에
+  const navigate = useNavigate();
   const [sortType, setSortType] = useState("latest");
   const [filter, setFilter] = useState("all");
 
   return (
-    <div>
-      <ControlMenu
-        value={sortType}
-        onChange={setSortType}
-        optionList={sortOptionList}
-      />
-      <ControlMenu
-        value={filter}
-        onChange={setFilter}
-        optionList={filterOptionList}
-      />
-      {getProcessedDiaryList().map((item) => (
-        <div key={item.id}>
-          {item.content}, 감정점수: {item.emotion}
+    <div className="DiaryList">
+      <div className="menu_wrapper">
+        <div className="lefr_col">
+          <ControlMenu
+            value={sortType}
+            onChange={setSortType}
+            optionList={sortOptionList}
+          />
+          <ControlMenu
+            value={filter}
+            onChange={setFilter}
+            optionList={filterOptionList}
+          />
         </div>
+        <div className="right_col">
+          <MyButton
+            type="positive"
+            text="새 일기 쓰기"
+            onClick={() => {
+              navigate("/new");
+            }}
+          />
+        </div>
+      </div>
+      {getProcessedDiaryList().map((item) => (
+        // 이부분 ...item으로 다 넘기면 그냥 되는건가..?
+        <DiaryItem key={item.id} {...item} />
       ))}
     </div>
   );
