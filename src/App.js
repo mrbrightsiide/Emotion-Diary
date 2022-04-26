@@ -93,17 +93,6 @@ function App() {
               <Route path="/diary/:id" element={<Diary />}></Route>
               <Route path="/edit" element={<Edit />}></Route>
             </Routes>
-            <MyButton
-              text={"버튼"}
-              onClick={() => alert("버튼클릭")}
-              type={"positive"}
-            />
-            <MyButton
-              text={"버튼"}
-              onClick={() => alert("버튼클릭")}
-              type={"negative"}
-            />
-            <MyButton text={"버튼"} onClick={() => alert("버튼클릭")} />
           </div>
         </BrowserRouter>
       </DiaryDispatchContext.Provider>
