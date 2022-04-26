@@ -56,7 +56,6 @@ const DiaryList = ({ diaryList }) => {
     return sortedList;
   };
 
-  // 훅스는 왜 여기에
   const navigate = useNavigate();
   const [sortType, setSortType] = useState("latest");
   const [filter, setFilter] = useState("all");
@@ -87,7 +86,6 @@ const DiaryList = ({ diaryList }) => {
         </div>
       </div>
       {getProcessedDiaryList().map((item) => (
-        // 이부분 ...item으로 다 넘기면 그냥 되는건가..?
         <DiaryItem key={item.id} {...item} />
       ))}
     </div>

@@ -54,6 +54,7 @@ function App() {
   const [data, dispatch] = useReducer(reducer, dummyData);
 
   const dataId = useRef(0);
+
   //CREAT
   const onCreate = (date, content, emotion) => {
     dispatch({
@@ -82,16 +83,17 @@ function App() {
       },
     });
   };
+
   return (
     <DiaryStateContext.Provider value={data}>
       <DiaryDispatchContext.Provider value={{ onCreate, onEdit, onRemove }}>
         <BrowserRouter>
           <div className="App">
             <Routes>
-              <Route path="/" element={<Home />}></Route>
-              <Route path="/new" element={<New />}></Route>
-              <Route path="/diary/:id" element={<Diary />}></Route>
-              <Route path="/edit" element={<Edit />}></Route>
+              <Route path="/" element={<Home />} />
+              <Route path="/new" element={<New />} />
+              <Route path="/edit/:id" element={<Edit />} />
+              <Route path="/diary/:id" element={<Diary />} />
             </Routes>
           </div>
         </BrowserRouter>
