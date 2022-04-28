@@ -1,14 +1,10 @@
-import React, { useRef, useReducer } from "react";
+import React, { useEffect, useRef, useReducer } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Home from "./pages/Home";
 import New from "./pages/New";
 import Edit from "./pages/Edit";
 import Diary from "./pages/Diary";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-
-// Components
-import MyButton from "./components/MyButton";
-import MyHeader from "./components/MyHeader";
 
 const reducer = (state, action) => {
   let newState = [];
@@ -36,24 +32,29 @@ const reducer = (state, action) => {
     default:
       return state;
   }
+  localStorage.setItem("diary", JSON.stringify(newState));
   return newState;
 };
 
 export const DiaryStateContext = React.createContext();
 export const DiaryDispatchContext = React.createContext();
 
-const dummyData = [
-  { id: 1, emotion: 1, content: "일기1번", date: 1650814310137 },
-  { id: 2, emotion: 2, content: "일기2번", date: 1650814310138 },
-  { id: 3, emotion: 3, content: "일기3번", date: 1650814310139 },
-  { id: 4, emotion: 4, content: "일기4번", date: 1650814310140 },
-  { id: 5, emotion: 5, content: "일기5번", date: 1650814310141 },
-];
-
 function App() {
-  const [data, dispatch] = useReducer(reducer, dummyData);
+  const [data, dispatch] = useReducer(reducer, []);
 
-  const dataId = useRef(0);
+  useEffect(() => {
+    const localData = localStorage.getItem("diary");
+    if (localData) {
+      const diaryList = JSON.parse(localData).sort(
+        (a, b) => parseInt(b.id) - parseInt(a.id)
+      );
+      dataId.current = parseInt(diaryList[0].id) + 1;
+
+      dispatch({ type: "INIT", data: diaryList });
+    }
+  }, []);
+
+  const dataId = useRef(6);
 
   //CREAT
   const onCreate = (date, content, emotion) => {
@@ -66,6 +67,7 @@ function App() {
         emotion,
       },
     });
+    dataId.current += 1;
   };
   // REMOVE
   const onRemove = (targetID) => {
