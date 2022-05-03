@@ -24,10 +24,8 @@ const Diary = () => {
         (it) => parseInt(it.id) === parseInt(id)
       );
       if (targetDiary) {
-        //일기가존재할때
         setData(targetDiary);
       } else {
-        // 일기가 없을 때
         alert("존재하지 않는 일기입니다");
         navigate("/", { replace: true });
       }
