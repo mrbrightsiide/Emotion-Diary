@@ -66,7 +66,13 @@ const DiaryEditor = ({ isEdit, originData }) => {
             <MyButton text={"< 뒤로가기"} onClick={() => navigate(-1)} />
           }
           rightChild={
-            isEdit && <MyButton text={"삭제하기"} type={"negative"}></MyButton>
+            isEdit && (
+              <MyButton
+                text={"삭제하기"}
+                type={"negative"}
+                onClick={() => handleRemove()}
+              ></MyButton>
+            )
           }
         />
       </div>
