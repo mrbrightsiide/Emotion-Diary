@@ -1,5 +1,7 @@
 # Emotion Diary
 - ReactJS를 사용하여 만든 감정일기장입니다.</br>
+<img src="https://user-images.githubusercontent.com/90305737/192223875-051b3f24-85b1-4a57-813c-11f2e4b56f07.png" width="700">
+
 
 ## Link
 https://sia-emotiondiary-project.firebaseapp.com/
